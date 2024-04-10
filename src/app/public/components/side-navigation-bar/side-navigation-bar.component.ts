@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Source } from "../../../news/model/source.entity";
 import { Article } from "../../../news/model/article.entity";
 import { NewsApiService } from "../../../news/services/news-api.service";
@@ -9,7 +9,7 @@ import { LogoApiService } from "../../../shared/services/logo-api.service";
   templateUrl: './side-navigation-bar.component.html',
   styleUrl: './side-navigation-bar.component.css'
 })
-export class SideNavigationBarComponent {
+export class SideNavigationBarComponent implements OnInit {
   sources: Array<Source> = [];
   articles: Array<Article> = [];
   constructor(private newsApi: NewsApiService,
@@ -38,7 +38,8 @@ export class SideNavigationBarComponent {
       .subscribe((data: any) => {
         this.sources = data['sources'];
         this.sources.forEach((source: { urlToLogo: string; }) =>
-          source.urlToLogo = this.logoApi.getUrlToLogo(source));
+          source.urlToLogo = this.logoApi.getUrlToLogo(source)
+        );
         console.log(this.sources);
         this.searchArticlesForSource(this.sources[0]);
       })
